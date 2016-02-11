@@ -1,0 +1,221 @@
+<!--TEMPLATES FOR THE VIEWER-->
+
+<template name ='charViewer'>
+  <div class='span12'>
+  	<script type="text/javascript">
+  	function setId() {
+  		temp = document.getElementById(event.target.id);
+	  Session.set('selectedChar' + Meteor.userId(), temp);
+	}
+  	</script>
+   {{#if noCharDetected}}
+   	Looks like you haven't made any characters yet!
+   {{else}} 
+    {{#each char}}
+    <div class="row">
+      <div class="containerBox">
+      	ID: <button class="changeOnClick" id="charId{{@index}}" onclick="setId()">{{_id}}</button>
+      	<div class="bigBox">Name: {{name}}</div>
+      	Refresh: {{refresh}}
+      	Game Type: {{gameType}}
+      High Concept: {{highConceptAspect}}
+      Trouble: {{troubleAspect}}
+      Aspect 1: {{aspect1}}
+      Aspect 2: {{aspect2}}
+      Aspect 3: {{aspect3}}
+      Description: {{description}}
+      Extras: {{extras}}
+      Great Skill 1: {{greatSkill1}}
+      Great Skill 2: {{greatSkill2}}
+      Great Skill 3: {{greatSkill3}}
+      Great Skill 4 {{greatSkill4}}
+      Great Skill 5 {{greatSkill5}}
+      Good Skill 1: {{goodSkill1}}
+      Good Skill 2: {{goodSkill2}}
+      Good Skill 3: {{goodSkill3}}
+      Good Skill 4: {{goodSkill4}}
+      Good Skill 5: {{goodSkill5}}
+      Fair SKill 1: {{fairSkill1}}
+      Fair Skill 2: {{fairSkill2}}
+      Fair Skill 3: {{fairSkill3}}
+      Fair SKill 4: {{fairSkill4}}
+      Fair Skill 5: {{fairSkill5}}
+      Average Skill 1: {{avgSkill1}}
+      Avererage Skill 2: {{avgSkill2}}
+      Average Skill 3: {{avgSkill3}}
+      Average Skill 4: {{avgSkill4}}
+      Average Skill 5: {{avgSkill5}}
+      Stunts: {{stunts}}
+      Superb Skill 1: {{superbSkill1}}
+      Superb Skill 2: {{superbSkill2}}
+      SUperb Skill 3: {{superbSkill3}}
+      Superb Skill 4: {{superbSkill4}}
+      Superb Skill 5: {{superbSkill5}}
+      Mild Condition 1: {{mildCon1}}
+      Mild Condition 2: {{mildCon2}}
+      Moderate Conditon: {{modCon}}
+      Severe Condition: {{sevCon}}
+     </div>
+    </div>
+    {{/each}}
+   {{/if}}
+  </div>
+</template>
+
+<template name="filler">
+	{{>nav}}
+	<center>Log in or select a character to get started!</center>
+</template>
+
+<!--TEMPLATES FOR THE CREATOR-->
+
+<template name="charCreateCore">
+	<div class="span12">
+	  <form id="charCreateForm">
+		  <div class="row-fluid">
+			  <div class="col-md-12">
+			    <h1 class="bg-info">ID</h1>
+		    </div>
+		  </div>
+		<div class="row-fluid">
+			<div class="col-md-12">
+				Name: <input type="text" id="charName" class="well well-sm">
+			  Refresh: <input type="number" id="charRefresh" class="well well-sm" style="width:5%"><br>
+			  Description: <br>
+			  <textarea rows="5" col="100" type="text" id="charDescription" class="well well-md"></textArea>
+			</div>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="col-md-12">
+				<h1 class="bg-info">ASPECTS</h1>
+			</div>
+		</div>
+		
+		<div class="row-fluid">
+		  <div class="col-md-2">
+		    <p>High Concept: </p><input type="text" id="charHighConceptAspect" class="well well-sm aspect">
+		  </div>
+		  <div class="col-md-2">
+				<p>Trouble: </p><input type="text" id="charTroubleAspect" class="well well-sm">
+			</div>
+			<div class="col-md-2">
+				<p>Aspect 1: </p><input type="text" id="charAspect1" class="well well-sm">
+			</div>
+			<div class="col-md-2">
+				<p>Aspect 2: </p><input type="text" id="charAspect2" class="well well-sm">
+			</div>
+			<div class="col-md-2">
+				<p>Aspect 3: </p><input type="text" id="charAspect3" class="well well-sm">
+		  </div>
+		</div>
+		<div class="row-fluid">
+		  <div class="col-md-12">
+				<h1 class="bg-info">SKILLS</h1>
+			</div>
+		</div>
+		<div class="row-fluid">
+		  <div class="col-md-12">
+		    <div class="row-fluid">
+		      <p>Superb (+5)</p>
+		      <input type="text" class="well well-sm" id="charSuperbSkill1">
+		      <input type="text" class="well well-sm" id="charSuperbSkill2">
+		      <input type="text" class="well well-sm" id="charSuperbSkill3">
+		      <input type="text" class="well well-sm" id="charSuperbSkill4">
+		      <input type="text" class="well well-sm" id="charSuperbSkill5">
+		    </div>
+		    <div class="row-fluid">
+		      <p>Great (+4)</p>
+		      <input type="text" class="well well-sm" id="charGreatSkill1">
+		      <input type="text" class="well well-sm" id="charGreatSkill2">
+		      <input type="text" class="well well-sm" id="charGreatSkill3">
+		      <input type="text" class="well well-sm" id="charGreatSkill4">
+		      <input type="text" class="well well-sm" id="charGreatSkill5">
+		    </div>
+		    <div class="row-fluid">
+		      <p>Good (+3)</p>
+		      <input type="text" class="well well-sm" id="charGoodSkill1">
+		      <input type="text" class="well well-sm" id="charGoodSkill2">
+		      <input type="text" class="well well-sm" id="charGoodSkill3">
+		      <input type="text" class="well well-sm" id="charGoodSkill4">
+		      <input type="text" class="well well-sm" id="charGoodSkill5">
+		    </div>
+		    <div class="row-fluid">
+		      <p>Fair (+2)</p>
+		      <input type="text" class="well well-sm" id="charFairSkill1">
+		      <input type="text" class="well well-sm" id="charFairSkill2">
+		      <input type="text" class="well well-sm" id="charFairSkill3">
+		      <input type="text" class="well well-sm" id="charFairSkill4">
+		      <input type="text" class="well well-sm" id="charFairSkill5">
+		    </div>
+		    <div class="row-fluid">
+		      <p>Average (+1)</p>
+		      <input type="text" class="well well-sm" id="charAvgSkill1">
+		      <input type="text" class="well well-sm" id="charAvgSkill2">
+		      <input type="text" class="well well-sm" id="charAvgSkill3">
+		      <input type="text" class="well well-sm" id="charAvgSkill4">
+		      <input type="text" class="well well-sm" id="charAvgSkill5">
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="col-md-12">
+			  <h1 class="bg-info">EXTRAS</h1>
+		    <textarea rows="5" col="100" type="text" id="charExtras" class="well well-md"></textArea>
+		  </div>
+		</div>
+		  
+		<div class="row-fluid">
+			<div class="col-md-12">
+			  <h1 class="bg-info">STUNTS</h1>
+		    <textarea rows="5" col="100" type="text" id="charStunts" class="well well-md"></textArea>
+		  </div>
+		</div>
+	  
+		<div class="row-fluid">
+			<div class="col-md-4">
+				<h1 class="bg-info">PHYSICAL STRESS</h1>
+		    <div class="checkBox" id="physicalStressBox1"></div>
+		    <div class="checkBox" id="physicalStressBox2"></div>
+		    <div class="checkBox" id="physicalStressBox3"></div>
+		  	<div class="checkBox" id="physicalStressBox4"></div>
+			 	<h1 class="bg-info">MENTAL STRESS</h1>
+			 	<div class="checkBox" id="mentalStressBox1"></div>
+				<div class="checkBox" id="mentalStressBox2"></div>
+				<div class="checkBox" id="mentalStressBox3"></div>
+				<div class="checkBox" id="mentalStressBox4"></div>
+				<script>
+				  $(".checkBox").on("click", function() {
+            $(this).toggleClass('checkBoxBlack');
+          });
+				</script>
+			</div>
+			<div class="col-md-8">
+				<h1 class="bg-info">CONSEQUENCES</h1>
+				<div class="row-fluid">
+				  <div class="col-md-6">
+				    <p>Mild 1: </p><input type="text" id="charMildCon1" class="well well-sm">
+				  </div>
+				  <div class="col-md-6">
+				    <p>Mild 2: </p><input type="text" id="charMildCon2" class="well well-sm">
+				  </div>
+				</div>
+				<div class="row-fluid">
+				  <div class="col-md-6">
+				    <p>Moderate: </p><input type="text" id="charModCon" class="well well-sm">
+				  </div>
+				  <div class="col-md-6">
+				    <p>Severe: </p><input type="text" id="charSevCon" class="well well-sm">
+				  </div>
+				</div>
+				</div>
+				<div class="row-fluid">
+				  <div class="col-md-12">
+				    <input type="submit" style="width:100%" value="Submit Form!">
+				  </div>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>

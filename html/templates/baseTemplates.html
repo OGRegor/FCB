@@ -1,0 +1,150 @@
+<!--This is the standard layout for the main menu when it loads-->
+<template name="layout1">
+  <script type="text/javascript">$('window').on('resize', function() {
+  if($('window').width() < 750) {
+    console.log('the window is small');
+  } else {
+    // $('div').removeClass('backDrop');
+    console.log('the window is big');
+  };
+});</script>
+	<div class="container-fluid">
+		<header>
+			{{> yield "header" }}
+		</header>
+		<div class="col-md-12">
+			{{> yield}}
+		</div>
+		<footer>
+			{{> yield "footer" }}
+		</footer>
+	</div>
+</template>
+<!--This is the layout when looking at it as the Game Master or at the char list-->
+<template name="layout2">
+	<div class="container-fluid">
+		<header>
+			{{> yield "header"}}
+		</header>
+		<div class="col-md-6">
+			{{ #contentFor "aside"}}
+			  <p>test</p>
+			{{ /contentFor }}
+		</div>
+		<div class="col-md-10">
+			{{ #contentFor }}
+			  <p>test</p>
+			{{ /contentFor }}
+		</div>
+		<footer>
+			{{> yield "footer"}}
+		</footer>
+	</div>
+</template>
+<!--This is the template for the Navbar at the top-->
+<template name='nav'>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        {{> navBrand}}
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          {{> navItems}}
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</template>
+
+<template name='navAccel'>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        {{> navBrandAccel}}
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          {{> navItems}}
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</template>
+
+
+<!--This is the template for the brand part of the Navbar-->
+
+<template name="navBrand">
+	  <a class="navbar-brand" href="/">Fate Core Blaster</a>
+</template>
+
+<template name="navBrandAccel">
+  <a class="navbar-brand" href="/">Fate  Accelerated</a>
+</template>
+<!--This is the template for the Navbar items-->
+
+<template name="navItems">
+  <li>
+	  <a href="#" onclick="
+	  if(Session.get('isSanic') === false || Session.get('isSanic') === null){
+      Session.set('isSanic', true);
+    } else {
+      Session.set('isSanic', false);
+    }">Toggle Modes</a>
+  </li>
+	<li>
+    <a href="{{ pathFor 'games' }}">Games</a>
+  </li> 
+	<li>
+	   <a href="{{ pathFor 'charCreate' }}">Create New</a>
+  </li>
+  <li>
+  	 <a href="{{pathFor 'charView' }}">List</a>
+  </li> 
+	<li>
+		<a href="{{ pathFor 'about' }}">About</a>
+  </li>
+	<li>
+		{{> loginButtons}}
+	</li>
+</template>
+
+<template name="home">
+  <h1>Welcome to Fate Core Blaster, the subjectively best manager for your Fate games on the internet!</h1>
+</template>
+
+<template name="homeAccel">
+  <h1>w e w s a n i c</h1><br>
+  <h1>e</h1><br>
+  <h1>w</h1><br>
+  <h1>s</h1><br>
+  <h1>a</h1><br>
+  <h1>n</h1><br>
+  <h1>i</h1><br>
+  <h1>c</h1><br>
+</template>
+
+<template name="about">
+	<p>This was created by anyone other than Gregor Limstrom, a Junior computer science student. He did not do this for the fame or the glory, but simply for the dank memes.</p>
+</template>
+
+<template name='foot'>
+	<center>made by grgr</center>
+</template>
