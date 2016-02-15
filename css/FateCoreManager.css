@@ -56,10 +56,11 @@ textarea{
   width:100%;
 }
 .unselectable {
-  -ms-user-select:none;
-  -moz-user-select:none;
-  -webkit-user-select:none;
-  background-color:white;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
 .backDrop{
   background-color:#333333;
@@ -78,10 +79,9 @@ a:hover, a:active{
 }
 */
 .bigBox{
-  border:1px solid #777777;
-  width:35%;
-  color:white;
-  background-color: #333333;
+  width:80%;
+  color:#333333;
+  background-color: #777777;
 }
 .containerBox{
   border:2px solid #333333;
@@ -90,7 +90,30 @@ a:hover, a:active{
   border:2px solid #777777;
   padding-left: 5px;
 }
-/*.navbar-header{
-  background-color:#333333;
-  border:2px solid #777777;
-}*/
+.slightlySmallerContainerBox{
+  border:1px solid #777777;
+}
+.selected{
+  background-color:yellow;
+  outline-width: 0;
+  border:1px solid #333333;
+}
+.wellSheetAspect{
+  border-radius:0px;
+  padding:0px;
+  padding-left:2px;
+  margin-right:2px;
+  margin-left:2px;
+  display:inline-block;
+}
+.count{
+  display:inline-block;
+  border:1px solid #777777;
+}
+.wellSheet{
+  border-radius:0px;
+  padding:0px;
+  padding-left:2px;
+  margin-right:2px;
+  margin-left:2px;
+}

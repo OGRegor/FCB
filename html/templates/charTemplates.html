@@ -1,65 +1,79 @@
 <!--TEMPLATES FOR THE VIEWER-->
 
 <template name ='charViewer'>
-  <div class='span12'>
+  <div class='span12' id='pit'>
   	<script type="text/javascript">
   	function setId() {
-  		temp = document.getElementById(event.target.id);
-	  Session.set('selectedChar' + Meteor.userId(), temp);
+		Session.set('selectedChar' + Meteor.userId(), document.getElementById(event.target.id).innerHTML);
 	}
   	</script>
-   {{#if noCharDetected}}
-   	Looks like you haven't made any characters yet!
-   {{else}} 
-    {{#each char}}
-    <div class="row">
-      <div class="containerBox">
-      	ID: <button class="changeOnClick" id="charId{{@index}}" onclick="setId()">{{_id}}</button>
-      	<div class="bigBox">Name: {{name}}</div>
-      	Refresh: {{refresh}}
-      	Game Type: {{gameType}}
-      High Concept: {{highConceptAspect}}
-      Trouble: {{troubleAspect}}
-      Aspect 1: {{aspect1}}
-      Aspect 2: {{aspect2}}
-      Aspect 3: {{aspect3}}
-      Description: {{description}}
-      Extras: {{extras}}
-      Great Skill 1: {{greatSkill1}}
-      Great Skill 2: {{greatSkill2}}
-      Great Skill 3: {{greatSkill3}}
-      Great Skill 4 {{greatSkill4}}
-      Great Skill 5 {{greatSkill5}}
-      Good Skill 1: {{goodSkill1}}
-      Good Skill 2: {{goodSkill2}}
-      Good Skill 3: {{goodSkill3}}
-      Good Skill 4: {{goodSkill4}}
-      Good Skill 5: {{goodSkill5}}
-      Fair SKill 1: {{fairSkill1}}
-      Fair Skill 2: {{fairSkill2}}
-      Fair Skill 3: {{fairSkill3}}
-      Fair SKill 4: {{fairSkill4}}
-      Fair Skill 5: {{fairSkill5}}
-      Average Skill 1: {{avgSkill1}}
-      Avererage Skill 2: {{avgSkill2}}
-      Average Skill 3: {{avgSkill3}}
-      Average Skill 4: {{avgSkill4}}
-      Average Skill 5: {{avgSkill5}}
-      Stunts: {{stunts}}
-      Superb Skill 1: {{superbSkill1}}
-      Superb Skill 2: {{superbSkill2}}
-      SUperb Skill 3: {{superbSkill3}}
-      Superb Skill 4: {{superbSkill4}}
-      Superb Skill 5: {{superbSkill5}}
-      Mild Condition 1: {{mildCon1}}
-      Mild Condition 2: {{mildCon2}}
-      Moderate Conditon: {{modCon}}
-      Severe Condition: {{sevCon}}
-     </div>
-    </div>
-    {{/each}}
-   {{/if}}
-  </div>
+    <div class="containerBox">
+      {{#each char}}
+      	<div class="slightlySmallerContainerBox">
+  			<p style="color:#777777; display:inline-block">ID:</p> <button class='count' id="charId{{@index}}" onclick="setId()">{{_id}}</button>	
+      		<div class="well well-sm wellSheet" style="margin-top:-5px">
+  				Name: {{name}}
+      		</div>
+			<div class="well well-sm wellSheet">
+				Game Type: {{gameType}}
+			</div>
+		    <div class="well well-sm wellSheet">
+		    	<textarea class="unselectable">Description: {{description}}</textarea>
+   			</div>
+      	</div>
+      	<div class="slightlySmallerContainerBox">
+      		<div class="well well-sm wellSheetAspect">
+      			High Concept: {{highConceptAspect}}
+      		</div>
+      		<div class="well well-sm wellSheetAspect">
+      			Trouble: {{troubleAspect}}
+      		</div>
+      		<div class="well well-sm wellSheetAspect">
+      			Aspect 1: {{aspect1}}
+      		</div>
+      		<div class="well well-sm wellSheetAspect">
+      			Aspect 2: {{aspect2}}
+      		</div>
+      		<div class="well well-sm wellSheetAspect">
+      			Aspect 3: {{aspect3}}
+      		</div>
+      	</div>
+      	<div>
+    		Superb Skill 1: {{superbSkill1}}
+    		Superb Skill 2: {{superbSkill2}}
+    		SUperb Skill 3: {{superbSkill3}}
+    		Superb Skill 4: {{superbSkill4}}
+    		Superb Skill 5: {{superbSkill5}}
+    		Great Skill 1: {{greatSkill1}}
+    		Great Skill 2: {{greatSkill2}}
+    		Great Skill 3: {{greatSkill3}}
+    		Great Skill 4 {{greatSkill4}}
+    		Great Skill 5 {{greatSkill5}}
+    		Good Skill 1: {{goodSkill1}}
+    		Good Skill 2: {{goodSkill2}}
+    		Good Skill 3: {{goodSkill3}}
+    		Good Skill 4: {{goodSkill4}}
+    		Good Skill 5: {{goodSkill5}}
+    		Fair SKill 1: {{fairSkill1}}
+    		Fair Skill 2: {{fairSkill2}}
+    		Fair Skill 3: {{fairSkill3}}
+    		Fair SKill 4: {{fairSkill4}}
+    		Fair Skill 5: {{fairSkill5}}
+    		Average Skill 1: {{avgSkill1}}
+    		Avererage Skill 2: {{avgSkill2}}
+    		Average Skill 3: {{avgSkill3}}
+    		Average Skill 4: {{avgSkill4}}
+    		Average Skill 5: {{avgSkill5}}
+    		Stunts: {{stunts}}
+    		Extras: {{extras}}
+    		Mild Condition 1: {{mildCon1}}
+    		Mild Condition 2: {{mildCon2}}
+    		Moderate Conditon: {{modCon}}
+    		Severe Condition: {{sevCon}}
+  		</div>
+   {{/each}}
+ </div>
+</div>
 </template>
 
 <template name="filler">

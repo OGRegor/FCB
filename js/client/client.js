@@ -43,14 +43,13 @@ Template.charViewer.helpers({
 });
 
 Template.charViewer.events({
-  
+  'click button': function() {
+    if(Session.get('selectedChar' + Meteor.userId()) == document.getElementById(event.target.id).innerHTML){
+      $('.count').removeClass('selected');
+      $('#' + event.target.id).addClass('selected');
+    }
+  },
 });
-
-// CODE FOR THE ACCELERATED GAME
-
-//CODE FOR THE CHARACTERS LIST STUFF
-
-// CODE FOR THE ACCELERATED CHARACTER CREATOR
 
 // CODE FOR THE CORE CHARACTER CREATOR
 //Template.charCreateCore.helpers({
@@ -140,7 +139,7 @@ Template.gameCore.helpers({
     return Session.get('activeTab');
   },
   'players': function() {
-    return gameData.find({})
+    return gameData.find()
   }
 });
 

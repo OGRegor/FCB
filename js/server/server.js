@@ -54,10 +54,8 @@ Meteor.methods({
         charMildCon1Var = charMildCon1,
         charMildCon2Var = charMildCon2,
         charModConVar = charModCon,
-        charSevConVar = charSevCon,
-        gameType = 'core';
+        charSevConVar = charSevCon;
     charData.insert({
-      gameType:gameType,
       createdBy: currentUserId,
       name:charNameVar,
       refresh:charRefreshVar,
