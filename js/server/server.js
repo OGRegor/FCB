@@ -1,21 +1,15 @@
 Meteor.startup(function () {
     // code to run on server at startup
-    Meteor.publish('charData', function() {
+    Meteor.publish('userData', function() {
       var currentUserId = this.userId;
-      return charData.find({createdBy: currentUserId});
-    });
-    Meteor.publish('gameData', function() {
-      var currentUserId = this.userId;
-      return gameData.find({createdBy: currentUserId});
-    });
-    Meteor.publish('', function(charName) {
-      return charData.find({name: charName});
+      return myData.find({createdBy: currentUserId});
     });
 });
 
 Meteor.methods({
   'insertCharDataCore': function(currentUserId, charName, charRefresh , charDescription , charHighConceptAspect, charTroubleAspect , charAspect1 , charAspect2 , charAspect3 , charSuperbSkill1 , charSuperbSkill2 , charSuperbSkill3 , charSuperbSkill4 , charSuperbSkill5 , charGreatSkill1 , charGreatSkill2 , charGreatSkill3 , charGreatSkill4 , charGreatSkill5 , charGoodSkill1 , charGoodSkill2 , charGoodSkill3 , charGoodSkill4 , charGoodSkill5 , charFairSkill1 , charFairSkill2 , charFairSkill3 , charFairSkill4 , charFairSkill5 , charAvgSkill1 , charAvgSkill2 , charAvgSkill3 , charAvgSkill4 , charAvgSkill5 , charExtras , charStunts , charMildCon1 , charMildCon2 , charModCon , charSevCon){
-    var currentUserIdVar = currentUserId,
+    var dataType = 'char',
+        currentUserIdVar = currentUserId,
         charNameVar = charName,
         charRefreshVar = charRefresh,
         charDescriptionVar = charDescription,
@@ -55,7 +49,8 @@ Meteor.methods({
         charMildCon2Var = charMildCon2,
         charModConVar = charModCon,
         charSevConVar = charSevCon;
-    charData.insert({
+    myData.insert({
+      dataType: dataType,
       createdBy: currentUserId,
       name:charNameVar,
       refresh:charRefreshVar,
@@ -101,6 +96,7 @@ Meteor.methods({
   
   'insertGameDataCore': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
     var currentUserId = Meteor.userId(),
+        dataType = 'game',
         gameType = gameTypeVar,
         gameName = gameNameVar,
         gameSetting = gameSettingVar,
@@ -121,7 +117,8 @@ Meteor.methods({
         gameDefaultStressBoxes = gameDefaultStressBoxesVar,
         gameDefaultConsequenceSlots = gameDefaultConsequenceSlotsVar,
         gameStuntsAndExtras = gameStuntsAndExtrasVar;
-    gameData.insert({
+    myData.insert({
+      dataType: dataType,
       createdBy: currentUserId,
       players: [currentUserId],
       gm:currentUserId,
@@ -150,10 +147,10 @@ Meteor.methods({
       stuntsAndExtras: gameStuntsAndExtras,
       });
   },
-  
-  'insertGameDataAccel': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar, gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
-    var currentUserId = Meteor.userId(),
-        gameType = gameTypeVar,
+  'updateGameDataCore': function(gameId, currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
+    var gameIdVar = gameId,
+        currentUserId = Meteor.userId(),
+        dataType = 'game',
         gameName = gameNameVar,
         gameSetting = gameSettingVar,
         gameCurrentIssue1 = gameCurrentIssue1Var,
@@ -164,19 +161,21 @@ Meteor.methods({
         gameFaceIssue1 = gameFaceIssue1Var,
         gameNumberOfAspects = gameNumberOfAspectsVar,
         gameNumberOfPhases = gameNumberOfPhasesVar,
+        gameSkillCap = gameSkillCapVar,
         gamePyraOrColumn = gamePyramidOrColumnVar,
         gameNumberOfColumns = gameNumberOfColumnsVar,
         gameRefreshRate = gameRefreshRateVar,
+        gameInitialStunts = gameInitialStuntsVar,
         gameTypeOfStressTracks = gameTypeOfStressTracksVar,
         gameDefaultStressBoxes = gameDefaultStressBoxesVar,
         gameDefaultConsequenceSlots = gameDefaultConsequenceSlotsVar,
         gameStuntsAndExtras = gameStuntsAndExtrasVar;
-    gameData.insert({
+    myData.update({_id: gameIdVar}, {
+      dataType: dataType,
       createdBy: currentUserId,
       players: [currentUserId],
       gm:currentUserId,
       gameName:gameName,
-      gameType:gameType,
       setting:gameSetting,
       currentIssue1:gameCurrentIssue1,
       currentIssue2:gameCurrentIssue2,
@@ -198,6 +197,10 @@ Meteor.methods({
       defaultStressBoxes:gameDefaultStressBoxes,
       defaultConsequenceSlots:gameDefaultConsequenceSlots,
       stuntsAndExtras: gameStuntsAndExtras,
-      });
+    });
   },
+  'delete': function(banishedToTheShadowRealm) {
+    myData.remove({_id: banishedToTheShadowRealm});
+  }
+  
 });

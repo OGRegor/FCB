@@ -1,116 +1,208 @@
 <template name="gameCore">
-  {{#basicTabs name="" tabs=tabs}}
-    {{#tabContent slug="game"}}
-  		<div class="row">
-  		  <h2 class="bg-info">Game Details</h2>
-  	  </div>
-  	  <div class="row">
-  	    Game Name: <input type="text" id="gameName" class="well well-sm" style="width:100%;"><br>
-        Setting/Scale: <textarea rows="5" col="100" type="text" id="gameSetting" class="well well-md"></textArea>
-      </div>
-      <div class="row">
-        <h2 class="bg-info">Issues</h2>
-      </div>
-      <div class="row">
-        Current Issue #1:
-        <textarea rows="2" col="100" type="text" id="gameCurrentIssue1" class="well well-md"></textArea>
-  	    Current Issue #2:
-  	    <textarea rows="2" col="100" type="text" id="gameCurrentIssue2" class="well well-md"></textArea>
-  	    Impending Issue #1:
-  	    <textarea rows="2" col="100" type="text" id="gameImpendingIssue1" class="well well-md"></textArea>
-  	    Impending Issue #2:
-  	    <textarea rows="2" col="100" type="text" id="gameImpendingIssue2" class="well well-md"></textArea>
-  	  </div>
-  	  <div class="row">
-  	    <h2 class="bg-info">Faces and Places</h2>
-  	  </div>
-  	  <div class="row" id="faceOrPlaceDiv">
-  	    <button onclick="newFace()">Make New Face/Place/Issue</button>
-  	    <div class="faceOrPlace">
-  	      <input type="text" id="gameFaceName1" class="well well-sm">
-  	      <textarea rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>
-  	    </div>
-  	  </div>
-  	  <div class="row">
-  	    <h2 class="bg-info">Dials</h2>
-  	  </div>
-  	  <div class="row">
-  	    Number of Aspects: <input type="number" id="gameNumberOfAspects" class="well well-sm"><br>
-  	    Number of Phases: <input type="number" id="gameNumberOfPhases" class="well well-sm"><br>
-  	    Skill Cap: <input type="text" id="gameSkillCap" class="well well-sm"><br>
-  	    Pyramid or Columns: <input type="text" id="gamePyramidOrColumns" class="well well-sm"><br>
-  	    Number Of Columns: <input type="text" id="gameNumberOfColumns" class="well well-sm"><br>
-  	    Refresh Rate: <input type="number" id="gameRefreshRate" class="well well-sm"><br>
-  	    Initial Stunts: <input type="number" id="gameInitialStunts" class="well well-sm"><br>
-  	    Type of Stress Tracks: <input type="text" id="gameTypeOfStressTracks" class="well well-sm"><br>
-  	    Default Stress Boxes: <input type="number" id="gameDefaultStressBoxes" class="well well-sm"><br>
-  	    Default Consequence Slots: <input type="number" id="gameDefaultConsequenceSlots" class="well well-sm">
-  	  </div>
-  	  {{#if isSanic.mode}}
-  	    <div class="row">
-  	      <h2 class="bg-info">Approaches</h2>
-  	    </div>
-  	    <div class="row">
-          <!--i really don't know what to put here-->
-  	    </div>
-  	  {{else}}
-  	    <div class="row">
-  	      <h2 class="bg-info">Skills</h2>
-  	    </div>
-  	    <div class="row">
-          <input type="text" id="gameSkill1" class="well well-sm">
-          <input type="text" id="gameSkill2" class="well well-sm">
-          <input type="text" id="gameSkill3" class="well well-sm">
-          <input type="text" id="gameSkill4" class="well well-sm">
-          <input type="text" id="gameSkill5" class="well well-sm">
-          <input type="text" id="gameSkill6" class="well well-sm">
-          <input type="text" id="gameSkill7" class="well well-sm">
-          <input type="text" id="gameSkill8" class="well well-sm">
-          <input type="text" id="gameSkill9" class="well well-sm">
-          <input type="text" id="gameSkill10" class="well well-sm">
-  	    </div>
-  	  {{/if}}
-  	  <div class="row">
-  	    <h2 class="bg-info">Stunts and Extras</h2>
-  	  </div>
-  	  <div class="row">
-        <textarea rows="5" col="100" type="text" id="gameStuntsAndExtras" class="well well-md"></textArea>
-      </div>
-    {{/tabContent}}
-    
- 		{{#tabContent slug="gameaspects"}}
- 		  
- 		{{/tabContent}}
-
-    {{#tabContent slug="characteraspects"}}
-      {{#with players}}
-        {{#each char}}
-          {{highConceptAspect}}
-          {{troubleAspect}}
-          {{aspect1}}
-          {{aspect2}}
-          {{aspect3}}
-        {{/each}}
-      {{/with}}
-    {{/tabContent}}
- 		
- 		{{#tabContent slug="tools"}}
-      Current Skill Value: <input type="number" id="lololol" oninput="Session.set('skillVal', $('#lololol').val() )">
-      <button id="dice">
-        Calculate
-      </button>
-      <div id="diceLog"></div>
-
- 		{{/tabContent}}
- 		 
- 		{{#tabContent slug="characters"}}
-      <!--make the characters expandable dropdown list things and organize them that way-->
-      {{#each char}}
-        <div>
-          {{name}}
-          {{createdBy}}
+  <div class="col-sm-2">
+    <h6>Dice Log</h6>
+    <div id="diceLog"></div>
+  </div>
+  <div class="col-sm-10">
+    {{#basicTabs name="" tabs=tabs}}
+      {{#tabContent slug="game"}}
+       {{#with game}}
+    		<div class="row">
+    		  <h2 class="bg-info">Game Details</h2>
+    	  </div>
+    	  <div class="row">
+    	    Game Name: <input type="text" id="gameName" class="well well-sm" style="width:100%;"><br>
+          Setting/Scale: <textarea rows="5" col="100" type="text" id="gameSetting" class="well well-md"></textArea>
         </div>
-      {{/each}}
-    {{/tabContent}}
-  {{/basicTabs}}
+        <div class="row">
+          <h2 class="bg-info">Issues</h2>
+        </div>
+        <div class="row">
+          Current Issue #1:
+          <textarea rows="2" col="100" type="text" id="gameCurrentIssue1" class="well well-md"></textArea>
+    	    Current Issue #2:
+    	    <textarea rows="2" col="100" type="text" id="gameCurrentIssue2" class="well well-md"></textArea>
+    	    Impending Issue #1:
+    	    <textarea rows="2" col="100" type="text" id="gameImpendingIssue1" class="well well-md"></textArea>
+    	    Impending Issue #2:
+    	    <textarea rows="2" col="100" type="text" id="gameImpendingIssue2" class="well well-md"></textArea>
+    	  </div>
+    	  <div class="row">
+    	    <h2 class="bg-info">Faces and Places</h2>
+    	  </div>
+    	  <div class="row" id="faceOrPlaceDiv">
+    	    <button onclick="newFace()">Make New Face/Place/Issue</button>
+    	    <div class="faceOrPlace">
+    	      <input type="text" id="gameFaceName1" class="well well-sm">
+    	      <textarea rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>
+    	    </div>
+    	  </div>
+    	  {{#if isSanic.mode}}
+    	    <div class="row">
+    	      <h2 class="bg-info">Approaches</h2>
+    	    </div>
+    	    <div class="row">
+            <!--i really don't know what to put here-->
+    	    </div>
+    	  {{else}}
+    	    <div class="row">
+    	      <h2 class="bg-info">Skills</h2>
+    	    </div>
+    	    <div class="row">
+            <input type="text" id="gameSkill1" class="well well-sm">
+            <input type="text" id="gameSkill2" class="well well-sm">
+            <input type="text" id="gameSkill3" class="well well-sm">
+            <input type="text" id="gameSkill4" class="well well-sm">
+            <input type="text" id="gameSkill5" class="well well-sm">
+            <input type="text" id="gameSkill6" class="well well-sm">
+            <input type="text" id="gameSkill7" class="well well-sm">
+            <input type="text" id="gameSkill8" class="well well-sm">
+            <input type="text" id="gameSkill9" class="well well-sm">
+            <input type="text" id="gameSkill10" class="well well-sm">
+    	    </div>
+    	  {{/if}}
+    	  <div class="row">
+    	    <h2 class="bg-info">Stunts and Extras</h2>
+    	  </div>
+    	  <div class="row">
+          <textarea rows="5" col="100" type="text" id="gameStuntsAndExtras" class="well well-md"></textArea>
+        </div>
+       {{/with}}
+      {{/tabContent}}
+      
+      {{#tabContent slug="gamedials"}}
+        {{#with game}}
+        <!--<input type="text" value="{{whatever the input is idk the format atm}}" id=""whatever is being shoved in fam>-->
+    	  <div class="row">
+    	    <h2 class="bg-info">Dials</h2>
+    	  </div>
+            <div class="row">
+              <div class="col-md-4">
+      	        Number of Aspects
+      	      </div>
+      	      <div class="col-md-8">
+      	        <input value="{{gameNumberOfAspects}}" type="number" id="gameNumberOfAspects" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+            <div class="row">
+              <div class="col-md-4">
+      	        Number of Phases
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{ gameNumberOfPhases}}" type="number" id="gameNumberOfPhases" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+            <div class="row">
+              <div class="col-md-4">
+      	        Skill Cap
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gameSkillCap}}" type="text" id="gameSkillCap" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Pyramid or Columns
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gamePyramidOrColumns}}" type="text" id="gamePyramidOrColumns" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Number of Columns
+              </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gamePyramidOrColumns}}" type="text" id="gamePyramidOrColumns" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Refresh Rate
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gameRefreshRate}}" type="number" id="gameRefreshRate" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Initial Stunts
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gameInitialStunts}}" type="number" id="gameInitialStunts" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Type of Stress Tracks
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gameTypeOfStressTracks}}" type="text" id="gameTypeOfStressTracks" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Default Stress Boxes
+      	      </div>
+      	      <div class="col-md-8">
+      	      <input value="{{gameDefaultStressBoxes}}" type="number" id="gameDefaultStressBoxes" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	    <div class="row">
+              <div class="col-md-4">
+                Default Consquence Slots
+      	      </div>
+      	      <div class="col-md-8">
+        	      <input value="{{gameDefaultConsequenceSlots}}" type="number" id="gameDefaultConsequenceSlots" class="well well-sm"><br>
+      	      </div>
+      	    </div>
+      	   {{/with}}
+      {{/tabContent}}
+      
+ 	  	{{#tabContent slug="gameaspects"}}
+ 	  	  {{#with game}}
+ 	  	    
+ 	  	  {{/with}}
+ 	  	{{/tabContent}}
+  
+      {{#tabContent slug="characteraspects"}}
+        {{#with players}}
+          {{#each char}}
+            {{highConceptAspect}}
+            {{troubleAspect}}
+            {{aspect1}}
+            {{aspect2}}
+            {{aspect3}}
+          {{/each}}
+        {{/with}}
+      {{/tabContent}}
+ 	  	
+ 	  	{{#tabContent slug="tools"}}
+        Current Skill Value: <input type="number" id="lolol" oninput="Session.set('skillVal', $('#lolol').val() )">
+        <button id="dice">
+          Calculate
+        </button>
+ 	  	{{/tabContent}}
+ 	  	 
+ 	  	{{#tabContent slug="characters"}}
+        <!--make the characters expandable dropdown list things and organize them that way-->
+        {{#each char}}
+          <div>
+            {{name}}
+            {{createdBy}}
+          </div>
+        {{/each}}
+      {{/tabContent}}
+    {{/basicTabs}}
+  </div>
+</template>
+<template name="joinGameTemplate">
+  Type in the ID of the game that you want to join!
+  <input type="text" id="joinGameId">
+  <button id="submitGameId">Join</button>
+  <p>Your Games </p><br>
+  <h3>Click on  a game to delete it, but once it is gone it is delete forever, so be careful.</h3>
+  {{#each userGames}}
+    {{gameName}}: <button class="delete" id="gameId{{@index}}">{{_id}}</button>
+  {{/each}}
 </template>

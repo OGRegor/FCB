@@ -23,15 +23,27 @@ Router.route('/', function () {
 	this.render('foot', {to: 'footer'});
 });
 
-Router.route('/games', function () {
+Router.route('/games/:_id', function () {
+	var game = myData.findOne({_id: this.params._id});
 	this.layout('layout1');
   if(Session.get('isSanic')){
   	this.render('navAccel', {to: 'header'});
  	} else {
     this.render('nav', {to: 'header'});
  	}
-	this.render('gameCore');
+	this.render('gameCore', {data: game});
 	this.render('foot', {to: 'footer'});
+});
+
+Router.route('/joinGame', function() {
+  this.layout('layout1');
+  if(Session.get('isSanic')){
+  	this.render('navAccel', {to: 'header'});
+ 	} else {
+    this.render('nav', {to: 'header'});
+ 	}
+ 	this.render('joinGameTemplate');
+ 	this.render('foot', {to: 'footer'});
 });
 
 Router.route('/charCreate', function () {
@@ -45,7 +57,7 @@ Router.route('/charCreate', function () {
   this.render('foot', {to:'footer'});
 });
 
-Router.route('/charView', function() {
+Router.route('/charViewer', function() {
   this.layout('layout1');
   this.render('nav', {to: 'header'});
   this.render('charViewer');

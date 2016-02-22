@@ -1,6 +1,5 @@
 // subscribes to the database published by the server
-Meteor.subscribe('charData');
-Meteor.subscribe('gameData');
+Meteor.subscribe('userData');
 
 Template.layout1.onRendered( function() {
   $(window).resize(function() {
@@ -21,24 +20,27 @@ Template.navBrand.helpers({
 Template.navItems.helpers({
 // 	when you click the home button, it goes back to the base page
 	'char': function() {
-	  return charData.find();
+	  return myData.find({dataType: 'char'});
 	},
 	'game': function() {
-	  return gameData.find();
+	  return gameData.find({dataType: 'game'});
+	}
+});
+Template.navItems.events({
+'click #gameCreateAnchor': function() {
+	  var currentUserId = Meteor.userId();
+	  Meteor.call('insertGameDataCore', currentUserId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+	 // fix this later
+	  var temp = myData.findOne({createdBy: currentUserId, dataType: 'game'}),
+	      tempId = temp._id;
+	  Router.go('/games/' + tempId);
 	},
 });
+	
 
 Template.charViewer.helpers({
   'char': function() {
-    return charData.find();
-  },
-  'noCharDetected': function() {
-    var currentUserId = Meteor.userId();
-    if (charData.find({createdBy: currentUserId}) === null) {
-      return true;
-    } else {
-      return false;
-    }
+    return myData.find({dataType: 'char'});
   },
 });
 
@@ -64,7 +66,6 @@ Template.charCreateCore.events({
     // calls the serverside function that shoves all of the data into the database
     var currentUserId = Meteor.userId(),
         charName = $('#charName').val(),
-        charRefresh = $('#charRefresh').val(),
         charDescription = $('#charDescription').val(),
         charHighConceptAspect = $('#charHighConceptAspect').val(),
         charTroubleAspect = $('#charTroubleAspect').val(),
@@ -102,8 +103,8 @@ Template.charCreateCore.events({
         charMildCon2 = $('#charMildCon2').val(),
         charModCon = $('#charModCon').val(),
         charSevCon = $('#charSevCon').val();
-    Meteor.call('insertCharDataCore', currentUserId, charName, charRefresh , charDescription , charHighConceptAspect, charTroubleAspect , charAspect1 , charAspect2 , charAspect3 , charSuperbSkill1 , charSuperbSkill2 , charSuperbSkill3 , charSuperbSkill4 , charSuperbSkill5 , charGreatSkill1 , charGreatSkill2 , charGreatSkill3 , charGreatSkill4 , charGreatSkill5 , charGoodSkill1 , charGoodSkill2 , charGoodSkill3 , charGoodSkill4 , charGoodSkill5 , charFairSkill1 , charFairSkill2 , charFairSkill3 , charFairSkill4 , charFairSkill5 , charAvgSkill1 , charAvgSkill2 , charAvgSkill3 , charAvgSkill4 , charAvgSkill5 , charExtras , charStunts , charMildCon1 , charMildCon2 , charModCon , charSevCon);
-    Router.go('/');
+    Meteor.call('insertCharDataCore', currentUserId, charName, charDescription , charHighConceptAspect, charTroubleAspect , charAspect1 , charAspect2 , charAspect3 , charSuperbSkill1 , charSuperbSkill2 , charSuperbSkill3 , charSuperbSkill4 , charSuperbSkill5 , charGreatSkill1 , charGreatSkill2 , charGreatSkill3 , charGreatSkill4 , charGreatSkill5 , charGoodSkill1 , charGoodSkill2 , charGoodSkill3 , charGoodSkill4 , charGoodSkill5 , charFairSkill1 , charFairSkill2 , charFairSkill3 , charFairSkill4 , charFairSkill5 , charAvgSkill1 , charAvgSkill2 , charAvgSkill3 , charAvgSkill4 , charAvgSkill5 , charExtras , charStunts , charMildCon1 , charMildCon2 , charModCon , charSevCon);
+    Router.go('/charViewer');
   },
 });
 
@@ -114,7 +115,7 @@ Template.gameCore.helpers({
     // return charData.find( {createdBy: gameData.find({players}) });
   },
   'game': function() {
-    return gameData.find();
+    return myData.find({dataType: 'game', createdBy: Meteor.userId()});
   },
   'isCore': function() {
     if (Session.get('isSanic') === true){
@@ -129,25 +130,24 @@ Template.gameCore.helpers({
   tabs: function() {
     return [
       { name: 'Game', slug: 'game'},
+      { name: 'Game Dials', slug: 'gamedials'},
       { name: 'Game Aspects', slug: 'gameaspects'},
       { name: 'Characters', slug: 'characters'},
-      { name: 'Character Aspects', slug: 'characteraspects'},
       { name: 'Tools', slug: 'tools'},
       ];
   },
   activeTab: function() {
     return Session.get('activeTab');
   },
-  'players': function() {
-    return gameData.find()
-  }
+
+  // probably write a helper to get the data of all the current playeres from the server
 });
 
 Template.gameCore.events({
-  'submit form': function() {
-    event.preventDefault();
-    var currentUserId = Meteor.userId(),
-        gameTypeVar = 'core',
+  'change input': function() {
+    var currentLocation = window.location.href,
+        currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length),
+        currentUserId = Meteor.userId(),
         gameNameVar = $('#gameName').val(),
         gameSettingVar = $('#gameSetting').val(),
         gameCurrentIssue1Var = $('#gameCurrentIssue1').val(),
@@ -167,14 +167,12 @@ Template.gameCore.events({
         gameDefaultStressBoxesVar = $('#gameDefaultStressBoxes').val(),
         gameDefaultConsequenceSlotsVar = $('#gameDefaultConsequenceSlots').val(),
         gameStuntsAndExtrasVar = $('#gameStuntsAndExtras').val();
-        Meteor.call('insertGameDataCore', currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar);
-        // make this in the not jank
-        // Router.go('/game/:_id');
-        Router.go('/');
+        Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar);
+        // make this in the not jank ight its not jank now kinda
   },
   'click #dice': function() {
     if(Session.get('skillVal') === undefined){
-      $('#diceLog').append('Please enter a valid skill value!' + '<br>')
+      $('#diceLog').append('Please enter a valid skill value!' + '<br>');
     } else {
     values=[parseFloat(Session.get('skillVal'))];
     for(i = 0; i < 4; i++) {
@@ -184,10 +182,34 @@ Template.gameCore.events({
       return a + b;
     }
     sum = values.reduce(add, 0);
-    $('#diceLog').append('You rolled a ' + sum + '!' + '<br>');
+    $('#diceLog').append(Meteor.userId() + ' rolled a ' + sum + '!' + '<br>');
     }
   },
+/*  'change input': function() {
+    var currentLocation = window.location.href;
+    currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
+    console.log(currentGameId);
+    Session.set('currentGame', myData.findOne({_id: currentGameId}));
+    Meteor.call('updateGameDataCore', $('#' + event.target.id).val());
+  },*/
 
+});
+
+Template.joinGameTemplate.helpers({
+  'userGames': function() {
+    return myData.find({createdBy: Meteor.userId(), dataType: 'game'});
+  }
+});
+
+Template.joinGameTemplate.events({
+  'click #submitGameId': function() {
+    var gameDestination = $('#joinGameId').val();
+    Router.go('/games/' + gameDestination);
+  },
+  'click .delete': function() {
+    var gameToBeDeleted = document.getElementById(event.target.id).innerHTML;
+    Meteor.call('delete', gameToBeDeleted);
+  },
 });
 
 ReactiveTabs.createInterface({

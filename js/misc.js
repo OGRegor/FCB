@@ -1,4 +1,2 @@
 // creates the mongodb
-charData = new Meteor.Collection('charDatabase');
-gameData = new Meteor.Collection('gameDatabase');
-
+myData = new Meteor.Collection('myDatabase');
