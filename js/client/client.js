@@ -28,12 +28,9 @@ Template.navItems.helpers({
 });
 Template.navItems.events({
 'click #gameCreateAnchor': function() {
-	  var currentUserId = Meteor.userId();
-	  Meteor.call('insertGameDataCore', currentUserId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-	 // fix this later
-	  var temp = myData.findOne({createdBy: currentUserId, dataType: 'game'}),
-	      tempId = temp._id;
-	  Router.go('/games/' + tempId);
+	 var currentUserId = Meteor.userId();
+	 Meteor.call('insertGameDataCore', currentUserId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+	 alert('Your game is now created, just go to the join game tab and click on it there to join!');
 	},
 });
 	
@@ -112,10 +109,20 @@ Template.charCreateCore.events({
 
 Template.gameCore.helpers({
   'char': function(){
-    // return charData.find( {createdBy: gameData.find({players}) });
+    var currentLocation = window.location.href,
+        currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length),
+        players = myData.find({_id: currentGameId}).fetch()[0].players;
+        console.log(players);
+        currentPlayers = [];
+    for(i = 0; i < players.length; i++){
+      currentPlayers.push(players[i]);
+    }
+    return currentPlayers;
   },
-  'game': function() {
-    return myData.find({dataType: 'game', createdBy: Meteor.userId()});
+  'games': function() {
+    var currentLocation = window.location.href,
+      currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
+    return myData.find({_id: currentGameId});
   },
   'isCore': function() {
     if (Session.get('isSanic') === true){
@@ -146,7 +153,7 @@ Template.gameCore.helpers({
 Template.gameCore.events({
   'change input': function() {
     var currentLocation = window.location.href,
-        currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length),
+        currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
         currentUserId = Meteor.userId(),
         gameNameVar = $('#gameName').val(),
         gameSettingVar = $('#gameSetting').val(),
@@ -167,8 +174,8 @@ Template.gameCore.events({
         gameDefaultStressBoxesVar = $('#gameDefaultStressBoxes').val(),
         gameDefaultConsequenceSlotsVar = $('#gameDefaultConsequenceSlots').val(),
         gameStuntsAndExtrasVar = $('#gameStuntsAndExtras').val();
+        // console.log($('#'+event.target.id).val());
         Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar);
-        // make this in the not jank ight its not jank now kinda
   },
   'click #dice': function() {
     if(Session.get('skillVal') === undefined){
@@ -204,6 +211,9 @@ Template.joinGameTemplate.helpers({
 Template.joinGameTemplate.events({
   'click #submitGameId': function() {
     var gameDestination = $('#joinGameId').val();
+    console.log(gameDestination);
+      // myObject = myData.find({_id: gameDestination});
+      // console.log(myObject.players);
     Router.go('/games/' + gameDestination);
   },
   'click .delete': function() {

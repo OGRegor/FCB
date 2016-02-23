@@ -31,7 +31,7 @@ Router.route('/games/:_id', function () {
  	} else {
     this.render('nav', {to: 'header'});
  	}
-	this.render('gameCore', {data: game});
+	this.render('gameCore');
 	this.render('foot', {to: 'footer'});
 });
 

@@ -4,8 +4,8 @@
   <div class='span12' id='pit'>
   	<script type="text/javascript">
   	function setId() {
-		Session.set('selectedChar' + Meteor.userId(), document.getElementById(event.target.id).innerHTML);
-	}
+		  Session.set('selectedChar' + Meteor.userId(), document.getElementById(event.target.id).innerHTML);
+	  }
   	</script>
     {{#each char}}
       <div class="containerBox">

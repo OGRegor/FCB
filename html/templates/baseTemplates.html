@@ -1,13 +1,5 @@
 <!--This is the standard layout for the main menu when it loads-->
 <template name="layout1">
-  <script type="text/javascript">$('window').on('resize', function() {
-  if($('window').width() < 750) {
-    console.log('the window is small');
-  } else {
-    // $('div').removeClass('backDrop');
-    console.log('the window is big');
-  };
-});</script>
 	<div class="container-fluid">
 		<header>
 			{{> yield "header" }}
@@ -110,7 +102,7 @@
     }">Toggle Modes</a>
   </li>
 	<li>
-    <a id="gameCreateAnchor">Host Game</a>
+    <a id="gameCreateAnchor">Create Game</a>
   </li>
   <li>
     <a href="{{ pathFor 'joinGame' }}">Join Game</a>

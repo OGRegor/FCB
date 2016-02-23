@@ -94,7 +94,7 @@ Meteor.methods({
     });
   },
   
-  'insertGameDataCore': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
+  'insertGameDataCore': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
     var currentUserId = Meteor.userId(),
         dataType = 'game',
         gameType = gameTypeVar,
@@ -104,8 +104,8 @@ Meteor.methods({
         gameCurrentIssue2 = gameCurrentIssue2Var,
         gameImpendingIssue1 = gameImpendingIssue1Var,
         gameImpendingIssue2 = gameImpendingIssue2Var,
-        gameFaceName1 = gameFaceName1Var,
-        gameFaceIssue1 = gameFaceIssue1Var,
+        gameAspectName1 = gameAspectName1Var,
+        gameAspectIssue1 = gameAspectIssue1Var,
         gameNumberOfAspects = gameNumberOfAspectsVar,
         gameNumberOfPhases = gameNumberOfPhasesVar,
         gameSkillCap = gameSkillCapVar,
@@ -129,10 +129,8 @@ Meteor.methods({
       currentIssue2:gameCurrentIssue2,
       impendingIssue1:gameImpendingIssue1,
       impendingIssue2:gameImpendingIssue2,
-      faceOrPlace1:{
-        name:gameFaceName1,
-        issueAspect:gameFaceIssue1,
-      },
+      gameAspectName:gameAspectName1,
+      gameAspectIssue1:gameAspectIssue1,
       // dials
       numOfAspects:gameNumberOfAspects,
       numOfPhases:gameNumberOfPhases,
@@ -147,7 +145,7 @@ Meteor.methods({
       stuntsAndExtras: gameStuntsAndExtras,
       });
   },
-  'updateGameDataCore': function(gameId, currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
+  'updateGameDataCore': function(gameId, currentUserId,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
     var gameIdVar = gameId,
         currentUserId = Meteor.userId(),
         dataType = 'game',
@@ -157,8 +155,8 @@ Meteor.methods({
         gameCurrentIssue2 = gameCurrentIssue2Var,
         gameImpendingIssue1 = gameImpendingIssue1Var,
         gameImpendingIssue2 = gameImpendingIssue2Var,
-        gameFaceName1 = gameFaceName1Var,
-        gameFaceIssue1 = gameFaceIssue1Var,
+        gameAspectName1 = gameAspectName1Var,
+        gameAspectIssue1 = gameAspectIssue1Var,
         gameNumberOfAspects = gameNumberOfAspectsVar,
         gameNumberOfPhases = gameNumberOfPhasesVar,
         gameSkillCap = gameSkillCapVar,
@@ -170,33 +168,29 @@ Meteor.methods({
         gameDefaultStressBoxes = gameDefaultStressBoxesVar,
         gameDefaultConsequenceSlots = gameDefaultConsequenceSlotsVar,
         gameStuntsAndExtras = gameStuntsAndExtrasVar;
-    myData.update({_id: gameIdVar}, {
-      dataType: dataType,
-      createdBy: currentUserId,
-      players: [currentUserId],
-      gm:currentUserId,
-      gameName:gameName,
-      setting:gameSetting,
-      currentIssue1:gameCurrentIssue1,
-      currentIssue2:gameCurrentIssue2,
-      impendingIssue1:gameImpendingIssue1,
-      impendingIssue2:gameImpendingIssue2,
-      faceOrPlace1:{
-        name:gameFaceName1,
-        issueAspect:gameFaceIssue1,
+    myData.update({_id: gameIdVar},
+      { $set: {
+        gameName:gameName,
+        setting:gameSetting,
+        currentIssue1:gameCurrentIssue1,
+        currentIssue2:gameCurrentIssue2,
+        impendingIssue1:gameImpendingIssue1,
+        impendingIssue2:gameImpendingIssue2,
+        gameAspectName1: gameAspectName1Var,
+        gameAspectIssue1: gameAspectIssue1,
+        // dials
+        numOfAspects:gameNumberOfAspects,
+        numOfPhases:gameNumberOfPhases,
+        skillCap:gameSkillCap,
+        pyraOrColumn:gamePyraOrColumn,
+        numColumns:gameNumberOfColumns,
+        refreshRate:gameRefreshRate,
+        initStunts:gameInitialStunts,
+        typeStressTracks:gameTypeOfStressTracks,
+        defaultStressBoxes:gameDefaultStressBoxes,
+        defaultConsequenceSlots:gameDefaultConsequenceSlots,
+        stuntsAndExtras: gameStuntsAndExtras,
       },
-      // dials
-      numOfAspects:gameNumberOfAspects,
-      numOfPhases:gameNumberOfPhases,
-      skillCap:gameSkillCap,
-      pyraOrColumn:gamePyraOrColumn,
-      numColumns:gameNumberOfColumns,
-      refreshRate:gameRefreshRate,
-      initStunts:gameInitialStunts,
-      typeStressTracks:gameTypeOfStressTracks,
-      defaultStressBoxes:gameDefaultStressBoxes,
-      defaultConsequenceSlots:gameDefaultConsequenceSlots,
-      stuntsAndExtras: gameStuntsAndExtras,
     });
   },
   'delete': function(banishedToTheShadowRealm) {
