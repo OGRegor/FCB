@@ -4,6 +4,10 @@ Meteor.startup(function () {
       var currentUserId = this.userId;
       return myData.find({createdBy: currentUserId});
     });
+    Meteor.publish('gameData', function() {
+      return myData.find({dataType: 'game'});
+    });
+  
 });
 
 Meteor.methods({
@@ -94,18 +98,38 @@ Meteor.methods({
     });
   },
   
-  'insertGameDataCore': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
+  'insertGameDataCore': function(currentUserId, gameTypeVar,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var, gameAspectName2Var, gameAspectIssue2Var, gameAspectName3Var, gameAspectIssue3Var, gameAspectName4Var, gameAspectIssue4Var, gameAspectName5Var, gameAspectIssue5Var, gameAspectName6Var, gameAspectIssue6Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar, gameSkill1Var, gameSkill2Var, gameSkill3Var, gameSkill4Var, gameSkill5Var, gameSkill6Var, gameSkill7Var, gameSkill8Var, gameSkill9Var, gameSkill10Var) {
     var currentUserId = Meteor.userId(),
         dataType = 'game',
         gameType = gameTypeVar,
         gameName = gameNameVar,
         gameSetting = gameSettingVar,
+        gameSkill1 = gameSkill1Var,
+        gameSkill2 = gameSkill2Var,
+        gameSkill3 = gameSkill3Var,
+        gameSkill4 = gameSkill4Var,
+        gameSkill5 = gameSkill5Var,
+        gameSkill6 = gameSkill6Var,
+        gameSkill7 = gameSkill7Var,
+        gameSkill8 = gameSkill8Var,
+        gameSkill9 = gameSkill9Var,
+        gameSkill10 = gameSkill10Var,
         gameCurrentIssue1 = gameCurrentIssue1Var,
         gameCurrentIssue2 = gameCurrentIssue2Var,
         gameImpendingIssue1 = gameImpendingIssue1Var,
         gameImpendingIssue2 = gameImpendingIssue2Var,
         gameAspectName1 = gameAspectName1Var,
         gameAspectIssue1 = gameAspectIssue1Var,
+        gameAspectName2 = gameAspectName2Var,
+        gameAspectIssue2 = gameAspectIssue2Var,
+        gameAspectName3 = gameAspectName3Var,
+        gameAspectIssue3 = gameAspectIssue3Var,
+        gameAspectName4 = gameAspectName4Var,
+        gameAspectIssue4 = gameAspectIssue4Var,
+        gameAspectName5 = gameAspectName5Var,
+        gameAspectIssue5 = gameAspectIssue5Var,
+        gameAspectName6 = gameAspectName6Var,
+        gameAspectIssue6 = gameAspectIssue6Var,
         gameNumberOfAspects = gameNumberOfAspectsVar,
         gameNumberOfPhases = gameNumberOfPhasesVar,
         gameSkillCap = gameSkillCapVar,
@@ -129,8 +153,28 @@ Meteor.methods({
       currentIssue2:gameCurrentIssue2,
       impendingIssue1:gameImpendingIssue1,
       impendingIssue2:gameImpendingIssue2,
-      gameAspectName:gameAspectName1,
+      gameSkill1: gameSkill1,
+      gameSkill2: gameSkill2,
+      gameSkill3: gameSkill3,
+      gameSkill4: gameSkill4,
+      gameSkill5: gameSkill5,
+      gameSkill6: gameSkill6,
+      gameSkill7: gameSkill7,
+      gameSkill8: gameSkill8,
+      gameSkill9: gameSkill9,
+      gameSkill10: gameSkill10,
+      gameAspectName1:gameAspectName1,
       gameAspectIssue1:gameAspectIssue1,
+      gameAspectName2:gameAspectName2,
+      gameAspectIssue2:gameAspectIssue2,
+      gameAspectName3:gameAspectName3,
+      gameAspectIssue3:gameAspectIssue3,
+      gameAspectName4:gameAspectName4,
+      gameAspectIssue4:gameAspectIssue4,
+      gameAspectName5:gameAspectName5,
+      gameAspectIssue5:gameAspectIssue5,
+      gameAspectName6:gameAspectName6,
+      gameAspectIssue6:gameAspectIssue6,
       // dials
       numOfAspects:gameNumberOfAspects,
       numOfPhases:gameNumberOfPhases,
@@ -143,9 +187,10 @@ Meteor.methods({
       defaultStressBoxes:gameDefaultStressBoxes,
       defaultConsequenceSlots:gameDefaultConsequenceSlots,
       stuntsAndExtras: gameStuntsAndExtras,
+      diceLog:null
       });
   },
-  'updateGameDataCore': function(gameId, currentUserId,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar) {
+  'updateGameDataCore': function(gameId, currentUserId,  gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameAspectName1Var, gameAspectIssue1Var, gameAspectName2Var, gameAspectIssue2Var, gameAspectName3Var, gameAspectIssue3Var, gameAspectName4Var, gameAspectIssue4Var, gameAspectName5Var, gameAspectIssue5Var, gameAspectName6Var, gameAspectIssue6Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar, gameSkill1Var, gameSkill2Var, gameSkill3Var, gameSkill4Var, gameSkill5Var, gameSkill6Var, gameSkill7Var, gameSkill8Var, gameSkill9Var, gameSkill10Var) {
     var gameIdVar = gameId,
         currentUserId = Meteor.userId(),
         dataType = 'game',
@@ -155,8 +200,28 @@ Meteor.methods({
         gameCurrentIssue2 = gameCurrentIssue2Var,
         gameImpendingIssue1 = gameImpendingIssue1Var,
         gameImpendingIssue2 = gameImpendingIssue2Var,
+        gameSkill1 = gameSkill1Var,
+        gameSkill2 = gameSkill2Var,
+        gameSkill3 = gameSkill3Var,
+        gameSkill4 = gameSkill4Var,
+        gameSkill5 = gameSkill5Var,
+        gameSkill6 = gameSkill6Var,
+        gameSkill7 = gameSkill7Var,
+        gameSkill8 = gameSkill8Var,
+        gameSkill9 = gameSkill9Var,
+        gameSkill10 = gameSkill10Var,
         gameAspectName1 = gameAspectName1Var,
         gameAspectIssue1 = gameAspectIssue1Var,
+        gameAspectName2 = gameAspectName2Var,
+        gameAspectIssue2 = gameAspectIssue2Var,
+        gameAspectName3 = gameAspectName3Var,
+        gameAspectIssue3 = gameAspectIssue3Var,
+        gameAspectName4 = gameAspectName4Var,
+        gameAspectIssue4 = gameAspectIssue4Var,
+        gameAspectName5 = gameAspectName5Var,
+        gameAspectIssue5 = gameAspectIssue5Var,
+        gameAspectName6 = gameAspectName6Var,
+        gameAspectIssue6 = gameAspectIssue6Var,
         gameNumberOfAspects = gameNumberOfAspectsVar,
         gameNumberOfPhases = gameNumberOfPhasesVar,
         gameSkillCap = gameSkillCapVar,
@@ -176,8 +241,28 @@ Meteor.methods({
         currentIssue2:gameCurrentIssue2,
         impendingIssue1:gameImpendingIssue1,
         impendingIssue2:gameImpendingIssue2,
-        gameAspectName1: gameAspectName1Var,
-        gameAspectIssue1: gameAspectIssue1,
+        gameSkill1: gameSkill1,
+        gameSkill2: gameSkill2,
+        gameSkill3: gameSkill3,
+        gameSkill4: gameSkill4,
+        gameSkill5: gameSkill5,
+        gameSkill6: gameSkill6,
+        gameSkill7: gameSkill7,
+        gameSkill8: gameSkill8,
+        gameSkill9: gameSkill9,
+        gameSkill10: gameSkill10,
+        gameAspectName1:gameAspectName1,
+        gameAspectIssue1:gameAspectIssue1,
+        gameAspectName2:gameAspectName2,
+        gameAspectIssue2:gameAspectIssue2,
+        gameAspectName3:gameAspectName3,
+        gameAspectIssue3:gameAspectIssue3,
+        gameAspectName4:gameAspectName4,
+        gameAspectIssue4:gameAspectIssue4,
+        gameAspectName5:gameAspectName5,
+        gameAspectIssue5:gameAspectIssue5,
+        gameAspectName6:gameAspectName6,
+        gameAspectIssue6:gameAspectIssue6,
         // dials
         numOfAspects:gameNumberOfAspects,
         numOfPhases:gameNumberOfPhases,
@@ -195,6 +280,15 @@ Meteor.methods({
   },
   'delete': function(banishedToTheShadowRealm) {
     myData.remove({_id: banishedToTheShadowRealm});
-  }
-  
+  },
+  'addPlayer': function(userId, gameToMod) {
+    myData.update({_id: gameToMod},
+      {$push: {players: userId}}
+    );
+  },
+  'addToLog': function(content, gameToMod) {
+    myData.update({_id: gameToMod},
+    {$push: {diceLog: content}
+    });
+  },
 });

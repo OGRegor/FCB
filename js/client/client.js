@@ -1,15 +1,6 @@
 // subscribes to the database published by the server
 Meteor.subscribe('userData');
-
-Template.layout1.onRendered( function() {
-  $(window).resize(function() {
-    if($(window).width() > 712) {
-      $('.backDrop').parent();
-    } else {
-      $('.backTarget').addClass('backDrop');
-    }
-  });
-});
+Meteor.subscribe('gameData');
 
 Template.navBrand.helpers({
   'modeState': {
@@ -112,12 +103,12 @@ Template.gameCore.helpers({
     var currentLocation = window.location.href,
         currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length),
         players = myData.find({_id: currentGameId}).fetch()[0].players;
-        console.log(players);
-        currentPlayers = [];
-    for(i = 0; i < players.length; i++){
-      currentPlayers.push(players[i]);
+    for (i = 0; i < players.length; i++) {
+      return myData.find({createdBy: players[i], dataType: 'char'});
     }
-    return currentPlayers;
+  },
+  'userChar': function() {
+    return myData.find({createdBy: Meteor.userId(), dataType:'char'});
   },
   'games': function() {
     var currentLocation = window.location.href,
@@ -146,8 +137,6 @@ Template.gameCore.helpers({
   activeTab: function() {
     return Session.get('activeTab');
   },
-
-  // probably write a helper to get the data of all the current playeres from the server
 });
 
 Template.gameCore.events({
@@ -156,26 +145,47 @@ Template.gameCore.events({
         currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
         currentUserId = Meteor.userId(),
         gameNameVar = $('#gameName').val(),
-        gameSettingVar = $('#gameSetting').val(),
-        gameCurrentIssue1Var = $('#gameCurrentIssue1').val(),
+        gameSettingVar = $('#gameSetting').val();
+    console.log('test');
+    console.log(gameSettingVar);
+    var gameCurrentIssue1Var = $('#gameCurrentIssue1').val(),
         gameCurrentIssue2Var = $('#gameCurrentIssue2').val(),
         gameImpendingIssue1Var = $('#gameImpendingIssue1').val(),
         gameImpendingIssue2Var = $('#gameImpendingIssue2').val(),
         gameFaceName1Var = $('#gameFaceName1').val(),
         gameFaceIssue1Var = $('#gameFaceIssue1').val(),
+        gameFaceName2Var = $('#gameFaceName2').val(),
+        gameFaceIssue2Var = $('#gameFaceIssue2').val(),
+        gameFaceName3Var = $('#gameFaceName3').val(),
+        gameFaceIssue3Var = $('#gameFaceIssue3').val(),
+        gameFaceName4Var = $('#gameFaceName4').val(),
+        gameFaceIssue4Var = $('#gameFaceIssue4').val(),
+        gameFaceName5Var = $('#gameFaceName5').val(),
+        gameFaceIssue5Var = $('#gameFaceIssue5').val(),
+        gameFaceName6Var = $('#gameFaceName6').val(),
+        gameFaceIssue6Var = $('#gameFaceIssue6').val(),
         gameNumberOfAspectsVar = $('#gameNumberOfAspects').val(),
         gameNumberOfPhasesVar = $('#gameNumberOfPhases').val(),
         gameSkillCapVar = $('#gameSkillCap').val(),
-        gamePyramidOrColumnVar = $('#gamePyramidOrColumn').val(),
+        gamePyramidOrColumnVar = $('#gamePyramidOrColumns').val(),
         gameNumberOfColumnsVar = $('#gameNumberOfColumns').val(),
         gameRefreshRateVar = $('#gameRefreshRate').val(),
         gameInitialStuntsVar = $('#gameInitialStunts').val(),
         gameTypeOfStressTracksVar = $('#gameTypeOfStressTracks').val(),
         gameDefaultStressBoxesVar = $('#gameDefaultStressBoxes').val(),
         gameDefaultConsequenceSlotsVar = $('#gameDefaultConsequenceSlots').val(),
+        gameSkill1Var = $('#gameSkill1').val(),
+        gameSkill2Var = $('#gameSkill2').val(),
+        gameSkill3Var = $('#gameSkill3').val(),
+        gameSkill4Var = $('#gameSkill4').val(),
+        gameSkill5Var = $('#gameSkill5').val(),
+        gameSkill6Var = $('#gameSkill6').val(),
+        gameSkill7Var = $('#gameSkill7').val(),
+        gameSkill8Var = $('#gameSkill8').val(),
+        gameSkill9Var = $('#gameSkill9').val(),
+        gameSkill10Var = $('#gameSkill10').val(),
         gameStuntsAndExtrasVar = $('#gameStuntsAndExtras').val();
-        // console.log($('#'+event.target.id).val());
-        Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar);
+        Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameFaceName2Var, gameFaceIssue2Var,  gameFaceName3Var, gameFaceIssue3Var,  gameFaceName4Var, gameFaceIssue4Var,  gameFaceName5Var, gameFaceIssue5Var,  gameFaceName6Var, gameFaceIssue6Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar, gameSkill1Var, gameSkill2Var, gameSkill3Var, gameSkill4Var, gameSkill5Var, gameSkill6Var, gameSkill7Var, gameSkill8Var, gameSkill9Var, gameSkill10Var);
   },
   'click #dice': function() {
     if(Session.get('skillVal') === undefined){
@@ -189,17 +199,12 @@ Template.gameCore.events({
       return a + b;
     }
     sum = values.reduce(add, 0);
-    $('#diceLog').append(Meteor.userId() + ' rolled a ' + sum + '!' + '<br>');
+    var currentLocation = window.location.href,
+    currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
+    // $('#diceLog').append(Meteor.userId() + ' rolled a ' + sum + '!' + '<br>');
+    Meteor.call('addToLog', Meteor.userId() + ' rolled a ' + sum + '!' + '<br>', currentGameId);
     }
   },
-/*  'change input': function() {
-    var currentLocation = window.location.href;
-    currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
-    console.log(currentGameId);
-    Session.set('currentGame', myData.findOne({_id: currentGameId}));
-    Meteor.call('updateGameDataCore', $('#' + event.target.id).val());
-  },*/
-
 });
 
 Template.joinGameTemplate.helpers({
@@ -211,10 +216,8 @@ Template.joinGameTemplate.helpers({
 Template.joinGameTemplate.events({
   'click #submitGameId': function() {
     var gameDestination = $('#joinGameId').val();
-    console.log(gameDestination);
-      // myObject = myData.find({_id: gameDestination});
-      // console.log(myObject.players);
     Router.go('/games/' + gameDestination);
+    Meteor.call('addPlayer', Meteor.userId(), gameDestination);
   },
   'click .delete': function() {
     var gameToBeDeleted = document.getElementById(event.target.id).innerHTML;

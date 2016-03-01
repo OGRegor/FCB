@@ -116,6 +116,9 @@
 	<li>
 		{{> loginButtons}}
 	</li>
+	<li id="idId" style="color:#777777; margin-top:15px;">
+	  Your ID is: <script>$('#idId').append(Meteor.userId())</script>
+	</li>
 </template>
 
 <template name="home">
