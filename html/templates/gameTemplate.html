@@ -1,12 +1,14 @@
 <template name="gameCore">
   <div class="col-sm-2">
     <h2 class="bg-info">Dice Log</h2>
-    {{#with games}}
-      <div id="diceLog">{{diceLog}}</div>
-    {{/with}}
+    <div id="diceLog">
+      {{#each diceLog}}
+        <div>{{this}}</div>
+      {{/each}}
+    </div>
   </div>
   <div class="col-sm-10">
-    {{#basicTabs name="" tabs=tabs}}
+    {{#basicTabs tabs=tabs}}
       {{#tabContent slug="game"}}
        {{#each games}}
     		<div class="row">
@@ -29,30 +31,7 @@
     	    Impending Issue #2:
     	    <textarea value="{{impendingIssue2}}" rows="2" col="100" type="text" id="gameImpendingIssue2" class="well well-md"></textArea>
     	  </div>
-    	  {{#if isSanic.mode}}
-    	    <div class="row">
-    	      <h2 class="bg-info">Approaches</h2>
-    	    </div>
-    	    <div class="row">
-            <!--i really don't know what to put here-->
-    	    </div>
-    	  {{else}}
-    	    <div class="row">
-    	      <h2 class="bg-info">Skills</h2>
-    	    </div>
-    	    <div class="row">
-            <input value="{{gameSkill1}}" type="text" id="gameSkill1" class="well well-sm">
-            <input value="{{gameSkill2}}" type="text" id="gameSkill2" class="well well-sm">
-            <input value="{{gameSkill3}}" type="text" id="gameSkill3" class="well well-sm">
-            <input value="{{gameSkill4}}" type="text" id="gameSkill4" class="well well-sm">
-            <input value="{{gameSkill5}}" type="text" id="gameSkill5" class="well well-sm">
-            <input value="{{gameSkill6}}" type="text" id="gameSkill6" class="well well-sm">
-            <input value="{{gameSkill7}}" type="text" id="gameSkill7" class="well well-sm">
-            <input value="{{gameSkill8}}" type="text" id="gameSkill8" class="well well-sm">
-            <input value="{{gameSkill9}}" type="text" id="gameSkill9" class="well well-sm">
-            <input value="{{gameSkill10}}" type="text" id="gameSkill10" class="well well-sm">
-    	    </div>
-    	  {{/if}}
+    	  {{> yield "butts"}}
     	  <div class="row">
     	    <h2 class="bg-info">Stunts and Extras</h2>
     	  </div>
@@ -151,44 +130,54 @@
       {{/tabContent}}
       
  	  	{{#tabContent slug="gameaspects"}}
+ 	  	<!--idk why i used each here and above but it works so w/e fam-->
  	  	 {{#each games}}
  	  	   <div class="row">
     	    <h2 class="bg-info">Faces and Places</h2>
     	   </div>
+    	   
+    	   <!--i dont have time to finish this tonight because im really tired and have more precalc to do but heres how it would work. I yield each of these areas and the default template that is loaded in is blank, but when they click it since this is a game to be played with trusted friends, it toggles the session value to true or something and swaps out the blank template with the one with all the data loaded in.-->
+    	   
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 1</h4>
-    	     <input value="{{gameAspectName1}}" type="text" id="gameFaceName1" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue1}}" rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>
+    	     {{> yield "gameAspect1" }}
+    	     <!--<h4 class="bg-info">Entity 1</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName1}}" type="text" id="gameFaceName1" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue1}}" rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 2</h4>
-    	     <input value="{{gameAspectName2}}" type="text" id="gameFaceName2" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue2}}" rows="2" col="100" type="text" id="gameFaceIssue2" class="well well-md"></textArea>
+    	     {{> yield "gameAspect2" }}
+    	     <!--<h4 class="bg-info">Entity 2</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName2}}" type="text" id="gameFaceName2" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue2}}" rows="2" col="100" type="text" id="gameFaceIssue2" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 3</h4>
-    	     <input value="{{gameAspectName3}}" type="text" id="gameFaceName3" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue3}}" rows="2" col="100" type="text" id="gameFaceIssue3" class="well well-md"></textArea>
+    	     {{> yield "gameAspect3" }}
+    	     <!--<h4 class="bg-info">Entity 3</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName3}}" type="text" id="gameFaceName3" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue3}}" rows="2" col="100" type="text" id="gameFaceIssue3" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 4</h4>
-    	     <input value="{{gameAspectName4}}" type="text" id="gameFaceName4" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue4}}" rows="2" col="100" type="text" id="gameFaceIssue4" class="well well-md"></textArea>
+    	     {{> yield "gameAspect4" }}
+    	     <!--<h4 class="bg-info">Entity 4</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName4}}" type="text" id="gameFaceName4" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue4}}" rows="2" col="100" type="text" id="gameFaceIssue4" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 5</h4>
-    	     <input value="{{gameAspectName5}}" type="text" id="gameFaceName5" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue5}}" rows="2" col="100" type="text" id="gameFaceIssue5" class="well well-md"></textArea>
+    	     {{> yield "gameAspect5" }}
+    	     <!--<h4 class="bg-info">Entity 5</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName5}}" type="text" id="gameFaceName5" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue5}}" rows="2" col="100" type="text" id="gameFaceIssue5" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
-    	     <h4 class="bg-info">Entity 6</h4>
-    	     <input value="{{gameAspectName6}}" type="text" id="gameFaceName6" class="well well-sm">
-    	     <textarea value="{{gameAspectIssue6}}" rows="2" col="100" type="text" id="gameFaceIssue6" class="well well-md"></textArea>
+    	     {{> yield "gameAspect6" }}
+    	     <!--<h4 class="bg-info">Entity 6</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
+    	     <!--<input value="{{gameAspectName6}}" type="text" id="gameFaceName6" class="well well-sm">-->
+    	     <!--<textarea value="{{gameAspectIssue6}}" rows="2" col="100" type="text" id="gameFaceIssue6" class="well well-md"></textArea>-->
     	   </div>
     	 {{/each}}
  	  	{{/tabContent}}
@@ -462,6 +451,36 @@
     	    {{/each}}
  	  	{{/tabContent}}
     {{/basicTabs}}
+  </div>
+</template>
+
+<template name="accelApproaches">
+  <div class="row">
+     <h2 class="bg-info">Approaches</h2>
+   </div>
+  <div class="row">
+    <input value="{{gameApproach1}}" type="text" id="gameApproach1" class="well well-sm">
+    <input value="{{gameApproach2}}" type="text" id="gameApproach2" class="well well-sm">
+    <input value="{{gameApproach3}}" type="text" id="gameApproach3" class="well well-sm">
+    <input value="{{gameApproach4}}" type="text" id="gameApproach4" class="well well-sm">
+  </div>
+</template>
+
+<template name="coreSkills">
+  <div class="row">
+    <h2 class="bg-info">Skills</h2>
+  </div>
+  <div class="row">
+    <input value="{{gameSkill1}}" type="text" id="gameSkill1" class="well well-sm">
+    <input value="{{gameSkill2}}" type="text" id="gameSkill2" class="well well-sm">
+    <input value="{{gameSkill3}}" type="text" id="gameSkill3" class="well well-sm">
+    <input value="{{gameSkill4}}" type="text" id="gameSkill4" class="well well-sm">
+    <input value="{{gameSkill5}}" type="text" id="gameSkill5" class="well well-sm">
+    <input value="{{gameSkill6}}" type="text" id="gameSkill6" class="well well-sm">
+    <input value="{{gameSkill7}}" type="text" id="gameSkill7" class="well well-sm">
+    <input value="{{gameSkill8}}" type="text" id="gameSkill8" class="well well-sm">
+    <input value="{{gameSkill9}}" type="text" id="gameSkill9" class="well well-sm">
+    <input value="{{gameSkill10}}" type="text" id="gameSkill10" class="well well-sm">
   </div>
 </template>
 

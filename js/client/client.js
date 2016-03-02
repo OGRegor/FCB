@@ -2,12 +2,6 @@
 Meteor.subscribe('userData');
 Meteor.subscribe('gameData');
 
-Template.navBrand.helpers({
-  'modeState': {
-    mode:Session.get('isSanic'),
-  },
-});
-
 Template.navItems.helpers({
 // 	when you click the home button, it goes back to the base page
 	'char': function() {
@@ -20,6 +14,7 @@ Template.navItems.helpers({
 Template.navItems.events({
 'click #gameCreateAnchor': function() {
 	 var currentUserId = Meteor.userId();
+	 //creates a blank game
 	 Meteor.call('insertGameDataCore', currentUserId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	 alert('Your game is now created, just go to the join game tab and click on it there to join!');
 	},
@@ -34,17 +29,14 @@ Template.charViewer.helpers({
 
 Template.charViewer.events({
   'click button': function() {
-    if(Session.get('selectedChar' + Meteor.userId()) == document.getElementById(event.target.id).innerHTML){
+    // sets the selected character of each player
+    if(Session.get('selectedChar') == document.getElementById(event.target.id).innerHTML){
       $('.count').removeClass('selected');
       $('#' + event.target.id).addClass('selected');
+      Meteor.call('setSelectedChar', Session.get('selectedChar'));
     }
   },
 });
-
-// CODE FOR THE CORE CHARACTER CREATOR
-//Template.charCreateCore.helpers({
-  
-// });
 
 Template.charCreateCore.events({
   // when they submit the form, it makes everything do as it should
@@ -103,8 +95,13 @@ Template.gameCore.helpers({
     var currentLocation = window.location.href,
         currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length),
         players = myData.find({_id: currentGameId}).fetch()[0].players;
+    // if they only have one character, it ignores the isSelected attribute because it doesnt matter in this case
     for (i = 0; i < players.length; i++) {
-      return myData.find({createdBy: players[i], dataType: 'char'});
+      if(myData.find({createdBy: players[i], dataType: 'char'}).fetch().length === 1){
+        return myData.find({createdBy: players[i], dataType: 'char'});
+      } else {
+        return myData.find({createdBy: players[i], dataType: 'char', isSelected: true});
+      }
     }
   },
   'userChar': function() {
@@ -115,15 +112,11 @@ Template.gameCore.helpers({
       currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
     return myData.find({_id: currentGameId});
   },
-  'isCore': function() {
-    if (Session.get('isSanic') === true){
-      return false;
-    } else {
-      return true;
-    }
-  },
-  'isSanic': {
-    mode: Session.get('isSanic'),
+  'diceLog': function() {
+    var currentLocation = window.location.href,
+      currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
+      // returns the dicelog reversed so that it reads the most recent roll first
+      return myData.find({_id: currentGameId}, {diceLog: 1}).fetch()[0].diceLog.reverse();
   },
   tabs: function() {
     return [
@@ -145,10 +138,8 @@ Template.gameCore.events({
         currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
         currentUserId = Meteor.userId(),
         gameNameVar = $('#gameName').val(),
-        gameSettingVar = $('#gameSetting').val();
-    console.log('test');
-    console.log(gameSettingVar);
-    var gameCurrentIssue1Var = $('#gameCurrentIssue1').val(),
+        gameSettingVar = $('#gameSetting').val(),
+        gameCurrentIssue1Var = $('#gameCurrentIssue1').val(),
         gameCurrentIssue2Var = $('#gameCurrentIssue2').val(),
         gameImpendingIssue1Var = $('#gameImpendingIssue1').val(),
         gameImpendingIssue2Var = $('#gameImpendingIssue2').val(),
@@ -184,26 +175,29 @@ Template.gameCore.events({
         gameSkill8Var = $('#gameSkill8').val(),
         gameSkill9Var = $('#gameSkill9').val(),
         gameSkill10Var = $('#gameSkill10').val(),
+        gameApproach1Var = $('#gameApproach1').val(),
+        gameApproach2Var = $('#gameApproach2').val(),
+        gameApproach3Var = $('#gameApproach3').val(),
+        gameApproach4Var = $('#gameApproach4').val(),
         gameStuntsAndExtrasVar = $('#gameStuntsAndExtras').val();
-        Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameFaceName2Var, gameFaceIssue2Var,  gameFaceName3Var, gameFaceIssue3Var,  gameFaceName4Var, gameFaceIssue4Var,  gameFaceName5Var, gameFaceIssue5Var,  gameFaceName6Var, gameFaceIssue6Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar, gameSkill1Var, gameSkill2Var, gameSkill3Var, gameSkill4Var, gameSkill5Var, gameSkill6Var, gameSkill7Var, gameSkill8Var, gameSkill9Var, gameSkill10Var);
+        Meteor.call('updateGameDataCore', currentGameId, currentUserId, gameNameVar,  gameSettingVar, gameCurrentIssue1Var, gameCurrentIssue2Var, gameImpendingIssue1Var, gameImpendingIssue2Var, gameFaceName1Var, gameFaceIssue1Var,  gameFaceName2Var, gameFaceIssue2Var,  gameFaceName3Var, gameFaceIssue3Var,  gameFaceName4Var, gameFaceIssue4Var,  gameFaceName5Var, gameFaceIssue5Var,  gameFaceName6Var, gameFaceIssue6Var,  gameNumberOfAspectsVar, gameNumberOfPhasesVar,  gameSkillCapVar,  gamePyramidOrColumnVar, gameNumberOfColumnsVar, gameRefreshRateVar, gameInitialStuntsVar, gameTypeOfStressTracksVar,  gameDefaultStressBoxesVar,  gameDefaultConsequenceSlotsVar, gameStuntsAndExtrasVar, gameSkill1Var, gameSkill2Var, gameSkill3Var, gameSkill4Var, gameSkill5Var, gameSkill6Var, gameSkill7Var, gameSkill8Var, gameSkill9Var, gameSkill10Var, gameApproach1Var, gameApproach2Var, gameApproach3Var, gameApproach4Var);
   },
   'click #dice': function() {
-    if(Session.get('skillVal') === undefined){
-      $('#diceLog').append('Please enter a valid skill value!' + '<br>');
-    } else {
-    values=[parseFloat(Session.get('skillVal'))];
-    for(i = 0; i < 4; i++) {
-      values.push(Math.floor(Math.random() * 3) - 1);
-    }
+    // generates four random values and averages them
+    values = [parseFloat(Session.get('skillVal'))];
     function add(a, b) {
       return a + b;
+    }
+    for(i = 0; i < 4; i++) {
+      values.push(Math.floor(Math.random() * 3) - 1);
     }
     sum = values.reduce(add, 0);
     var currentLocation = window.location.href,
     currentGameId = currentLocation.substr(currentLocation.length - 17, currentLocation.length);
-    // $('#diceLog').append(Meteor.userId() + ' rolled a ' + sum + '!' + '<br>');
-    Meteor.call('addToLog', Meteor.userId() + ' rolled a ' + sum + '!' + '<br>', currentGameId);
-    }
+    Meteor.call('addToLog', Meteor.userId() + ' rolled a ' + sum + '!', currentGameId);
+  },
+  'click .toggleVisibilityButton': function() {
+    console.log('this is doing something i guess');
   },
 });
 

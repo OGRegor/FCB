@@ -28,9 +28,17 @@ Router.route('/games/:_id', function () {
 	this.layout('layout1');
   if(Session.get('isSanic')){
   	this.render('navAccel', {to: 'header'});
+  	this.render('accelApproaches', {to: 'butts'});
  	} else {
     this.render('nav', {to: 'header'});
+    this.render('coreSkills', {to: 'butts'});
  	}
+ 	if(Session.get('gameAspect1Vis')){
+ 	  this.render('gameAspect1', {to: 'gameAspect1'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect1'});
+ 	}
+ 	// and then repeat this 6 times
 	this.render('gameCore');
 	this.render('foot', {to: 'footer'});
 });
