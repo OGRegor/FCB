@@ -197,7 +197,7 @@ Template.gameCore.events({
     Meteor.call('addToLog', Meteor.userId() + ' rolled a ' + sum + '!', currentGameId);
   },
   'click .toggleVisibilityButton': function() {
-    console.log('this is doing something i guess');
+    Session.set('gameAspect' + event.target.id + 'Vis', true);
   },
 });
 

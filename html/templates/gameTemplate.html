@@ -135,49 +135,35 @@
  	  	   <div class="row">
     	    <h2 class="bg-info">Faces and Places</h2>
     	   </div>
-    	   
-    	   <!--i dont have time to finish this tonight because im really tired and have more precalc to do but heres how it would work. I yield each of these areas and the default template that is loaded in is blank, but when they click it since this is a game to be played with trusted friends, it toggles the session value to true or something and swaps out the blank template with the one with all the data loaded in.-->
-    	   
+
     	   <div class="faceOrPlace">
+    	     <button id="1" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect1" }}
-    	     <!--<h4 class="bg-info">Entity 1</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName1}}" type="text" id="gameFaceName1" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue1}}" rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
+    	     <button id="2" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect2" }}
-    	     <!--<h4 class="bg-info">Entity 2</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName2}}" type="text" id="gameFaceName2" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue2}}" rows="2" col="100" type="text" id="gameFaceIssue2" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
+    	     <button id="3" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect3" }}
-    	     <!--<h4 class="bg-info">Entity 3</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName3}}" type="text" id="gameFaceName3" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue3}}" rows="2" col="100" type="text" id="gameFaceIssue3" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
+    	     <button id="4" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect4" }}
-    	     <!--<h4 class="bg-info">Entity 4</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName4}}" type="text" id="gameFaceName4" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue4}}" rows="2" col="100" type="text" id="gameFaceIssue4" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
+    	     <button id="5" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect5" }}
-    	     <!--<h4 class="bg-info">Entity 5</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName5}}" type="text" id="gameFaceName5" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue5}}" rows="2" col="100" type="text" id="gameFaceIssue5" class="well well-md"></textArea>-->
     	   </div>
     	 
     	   <div class="faceOrPlace">
+    	     <button id="6" class="toggleVisibilityButton">Toggle Visibility To Players</button>
     	     {{> yield "gameAspect6" }}
-    	     <!--<h4 class="bg-info">Entity 6</h4><button class="toggleVisiblityButton">Toggle Visibility To Players</button>-->
-    	     <!--<input value="{{gameAspectName6}}" type="text" id="gameFaceName6" class="well well-sm">-->
-    	     <!--<textarea value="{{gameAspectIssue6}}" rows="2" col="100" type="text" id="gameFaceIssue6" class="well well-md"></textArea>-->
     	   </div>
     	 {{/each}}
  	  	{{/tabContent}}
@@ -484,12 +470,45 @@
   </div>
 </template>
 
-<template name="joinGameTemplate">
-  Type in the ID of the game that you want to join!
-  <input type="text" id="joinGameId">
-  <button id="submitGameId">Join</button>
-  <p>Your Games </p><br>
-  {{#each userGames}}
-    <button style="color:green" id="{{_id}}" onclick="Router.go('/games/' + event.target.id)">Name: {{gameName}}</button>: <button class="delete" id="gameId{{@index}}">{{_id}}</button>
-  {{/each}}
+<template name="gameAspectFiller">
+  <h4 class="bg-info">Hidden Entity</h4>
+  <input class="well well-sm" readonly>
+    <textarea rows="2" col="100" type="text" class="well well-md" readonly></textArea>
 </template>
+
+<template name="gameAspect1">
+  <h4 class="bg-info">Entity 1</h4>
+  <input value="{{gameAspectName1}}" type="text" id="gameFaceName1" class="well well-sm">
+  <textarea value="{{gameAspectIssue1}}" rows="2" col="100" type="text" id="gameFaceIssue1" class="well well-md"></textArea>
+</template>
+
+<template name="gameAspect2">
+  <h4 class="bg-info">Entity 2</h4>
+  <input value="{{gameAspectName2}}" type="text" id="gameFaceName2" class="well well-sm">
+  <textarea value="{{gameAspectIssue2}}" rows="2" col="100" type="text" id="gameFaceIssue2" class="well well-md"></textArea>
+</template>
+
+<template name="gameAspect3">
+  <h4 class="bg-info">Entity 3</h4>
+  <input value="{{gameAspectName3}}" type="text" id="gameFaceName3" class="well well-sm">
+  <textarea value="{{gameAspectIssue3}}" rows="2" col="100" type="text" id="gameFaceIssue3" class="well well-md"></textArea>
+</template>
+
+<template name="gameAspect4">
+  <h4 class="bg-info">Entity 4</h4>
+  <input value="{{gameAspectName4}}" type="text" id="gameFaceName4" class="well well-sm">
+  <textarea value="{{gameAspectIssue4}}" rows="2" col="100" type="text" id="gameFaceIssue4" class="well well-md"></textArea>
+</template>
+
+<template name="gameAspect5">
+  <h4 class="bg-info">Entity 5</h4>
+  <input value="{{gameAspectName5}}" type="text" id="gameFaceName5" class="well well-sm">
+  <textarea value="{{gameAspectIssue5}}" rows="2" col="100" type="text" id="gameFaceIssue5" class="well well-md"></textArea>
+</template>
+
+<template name="gameAspect6">
+  <h4 class="bg-info">Entity 6</h4>
+  <input value="{{gameAspectName6}}" type="text" id="gameFaceName6" class="well well-sm">
+  <textarea value="{{gameAspectIssue6}}" rows="2" col="100" type="text" id="gameFaceIssue6" class="well well-md"></textArea>
+</template>
+

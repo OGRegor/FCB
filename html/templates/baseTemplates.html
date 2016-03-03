@@ -139,6 +139,16 @@
   <h1>c</h1><br>
 </template>
 
+<template name="joinGameTemplate">
+  Type in the ID of the game that you want to join!
+  <input type="text" id="joinGameId">
+  <button id="submitGameId">Join</button>
+  <p>Your Games </p><br>
+  {{#each userGames}}
+    <button style="color:green" id="{{_id}}" onclick="Router.go('/games/' + event.target.id)">Name: {{gameName}}</button>: <button class="delete" id="gameId{{@index}}">{{_id}}</button>
+  {{/each}}
+</template>
+
 <template name="about">
 	<p>This was created by anyone other than Gregor Limstrom, a Junior computer science student. He did not do this for the fame or the glory, but simply for the dank memes.</p>
 </template>

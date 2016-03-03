@@ -38,7 +38,31 @@ Router.route('/games/:_id', function () {
  	} else {
  	  this.render('gameAspectFiller', {to: 'gameAspect1'});
  	}
- 	// and then repeat this 6 times
+ 	if(Session.get('gameAspect2Vis')){
+ 	  this.render('gameAspect2', {to: 'gameAspect2'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect2'});
+ 	}
+ 	if(Session.get('gameAspect3Vis')){
+ 	  this.render('gameAspect3', {to: 'gameAspect3'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect3'});
+ 	}
+ 	if(Session.get('gameAspect4Vis')){
+ 	  this.render('gameAspect4', {to: 'gameAspect4'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect4'});
+ 	}
+ 	if(Session.get('gameAspect5Vis')){
+ 	  this.render('gameAspect5', {to: 'gameAspect5'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect5'});
+ 	}
+ 	if(Session.get('gameAspect6Vis')){
+ 	  this.render('gameAspect6', {to: 'gameAspect6'});
+ 	} else {
+ 	  this.render('gameAspectFiller', {to: 'gameAspect6'});
+ 	}
 	this.render('gameCore');
 	this.render('foot', {to: 'footer'});
 });
